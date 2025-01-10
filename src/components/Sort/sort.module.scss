@@ -1,0 +1,32 @@
+.wrapper {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.sortBy {
+  background: #ffffff;
+  border: 2px solid #0056b3;
+  border-radius: 10px;
+  padding: 5px 10px;
+  width: 33%;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+.sortBy:hover {
+  background: #007bff;
+  color: #ffffff;
+}
+
+.active {
+  background: #007bff;
+  border: 2px solid #0056b3;
+  border-radius: 10px;
+  padding: 5px 10px;
+  width: 33%;
+  text-align: center;
+  color: #ffffff;
+  cursor: pointer;
+}

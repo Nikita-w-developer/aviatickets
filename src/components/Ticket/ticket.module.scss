@@ -1,0 +1,18 @@
+.wrapper {
+  background: #ffffff;
+  border: 2px solid #0056b3;
+  border-radius: 10px;
+  padding: 5px 10px;
+  width: 50vw;
+  cursor: pointer;
+}
+
+.main {
+  display: flex;
+  justify-content: space-between;
+}
+
+.detail {
+  display: flex;
+  justify-content: space-between;
+}

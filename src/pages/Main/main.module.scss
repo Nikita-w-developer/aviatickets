@@ -1,0 +1,16 @@
+.logo {
+  padding: 0 33%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  img {
+    height: 100px;
+    width: 96px;
+  }
+}
+
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 50px;
+}
