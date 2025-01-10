@@ -5,7 +5,19 @@ import Filter from "../../components/Filter";
 import Ticket from "../../components/Ticket";
 import Sort from "../../components/Sort";
 
-const index = () => {
+import { useGetFlightOffersQuery } from "../../redux/Slices/apiSlice";
+
+const Index = () => {
+  const { data, error, isLoading } = useGetFlightOffersQuery({
+    originLocationCode: "NYC",
+    destinationLocationCode: "CAN",
+    departureDate: "2025-01-15",
+    adults: 1,
+  });
+  if (data) {
+    console.log(data.data);
+  }
+
   return (
     <div className="container">
       <section className={styles.logo}>
@@ -14,13 +26,31 @@ const index = () => {
       </section>
       <section className={styles.wrapper}>
         <Filter />
-        <div>
+        <div className={styles.ticket_part}>
           <Sort />
-          <Ticket />
+          {data
+            ? data?.data?.map((obj, i) => (
+                <Ticket
+                  key={i}
+                  price={data?.data[i]?.price.total}
+                  arrival={data?.data[i]?.itineraries[0].segments[0].arrival}
+                  departure={
+                    data?.data[i]?.itineraries[0].segments[0].departure
+                  }
+                  stop={data?.data[i]?.itineraries[0].segments[0].numberOfStops}
+                  airlines={
+                    data?.data[i]?.itineraries[0].segments[0].operating
+                      ?.carrierCode
+                  }
+                  duration={data?.data[i]?.itineraries[0].segments[0].duration}
+                  transfer={data?.data[i]?.itineraries[0]?.segments[0]?.stops}
+                />
+              ))
+            : isLoading || error}
         </div>
       </section>
     </div>
   );
 };
 
-export default index;
+export default Index;
