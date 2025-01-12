@@ -6,9 +6,11 @@ import Ticket from "../../components/Ticket";
 import Sort from "../../components/Sort";
 import Skeleton from "../../components/Skeleton";
 import { useGetFlightOffersQuery } from "../../redux/Slices/apiSlice";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import { setProps } from "../../redux/Slices/propsSlice";
 
-const Index = () => {
+const Main = () => {
   const { data, error, isLoading } = useGetFlightOffersQuery({
     originLocationCode: "NYC",
     destinationLocationCode: "CAN",
@@ -16,6 +18,7 @@ const Index = () => {
     adults: 1,
   });
 
+  const dispatch = useDispatch();
   const { coast, speed } = useSelector((state) => state.sortReducer);
   const { stops } = useSelector((state) => state.filterReducer);
 
@@ -72,37 +75,53 @@ const Index = () => {
           {error && <p>Error loading data</p>}
           {coast &&
             coastFlights.map((flight) => (
-              <Ticket
-                key={flight.id}
-                price={flight.price?.total}
-                arrival={flight.itineraries?.[0]?.segments?.[0]?.arrival}
-                departure={flight.itineraries?.[0]?.segments?.[0]?.departure}
-                stop={flight.itineraries?.[0]?.segments?.[0]?.numberOfStops}
-                airlines={
-                  flight.itineraries?.[0]?.segments?.[0]?.operating?.carrierCode
-                }
-                duration={flight.itineraries?.[0]?.segments?.[0]?.duration}
-                transfer={
-                  flight.itineraries?.[0]?.segments?.[0]?.stops?.[0]?.iataCode
-                }
-              />
+              <Link
+                to={`/info/${flight.id}`}
+                className="custom-link"
+                onClick={() => dispatch(setProps(flight))}
+              >
+                <Ticket
+                  key={flight.id}
+                  id={flight.id}
+                  price={flight.price?.total}
+                  arrival={flight.itineraries?.[0]?.segments?.[0]?.arrival}
+                  departure={flight.itineraries?.[0]?.segments?.[0]?.departure}
+                  stop={flight.itineraries?.[0]?.segments?.[0]?.numberOfStops}
+                  airlines={
+                    flight.itineraries?.[0]?.segments?.[0]?.operating
+                      ?.carrierCode
+                  }
+                  duration={flight.itineraries?.[0]?.segments?.[0]?.duration}
+                  transfer={
+                    flight.itineraries?.[0]?.segments?.[0]?.stops?.[0]?.iataCode
+                  }
+                />
+              </Link>
             ))}
           {speed &&
             flights.map((flight) => (
-              <Ticket
-                key={flight.id}
-                price={flight.price?.total}
-                arrival={flight.itineraries?.[0]?.segments?.[0]?.arrival}
-                departure={flight.itineraries?.[0]?.segments?.[0]?.departure}
-                stop={flight.itineraries?.[0]?.segments?.[0]?.numberOfStops}
-                airlines={
-                  flight.itineraries?.[0]?.segments?.[0]?.operating?.carrierCode
-                }
-                duration={flight.itineraries?.[0]?.segments?.[0]?.duration}
-                transfer={
-                  flight.itineraries?.[0]?.segments?.[0]?.stops?.[0]?.iataCode
-                }
-              />
+              <Link
+                to={`/info/${flight.id}`}
+                className="custom-link"
+                onClick={() => dispatch(setProps(flight))}
+              >
+                <Ticket
+                  key={flight.id}
+                  id={flight.id}
+                  price={flight.price?.total}
+                  arrival={flight.itineraries?.[0]?.segments?.[0]?.arrival}
+                  departure={flight.itineraries?.[0]?.segments?.[0]?.departure}
+                  stop={flight.itineraries?.[0]?.segments?.[0]?.numberOfStops}
+                  airlines={
+                    flight.itineraries?.[0]?.segments?.[0]?.operating
+                      ?.carrierCode
+                  }
+                  duration={flight.itineraries?.[0]?.segments?.[0]?.duration}
+                  transfer={
+                    flight.itineraries?.[0]?.segments?.[0]?.stops?.[0]?.iataCode
+                  }
+                />
+              </Link>
             ))}
         </div>
       </section>
@@ -110,4 +129,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default Main;

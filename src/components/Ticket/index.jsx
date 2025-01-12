@@ -9,6 +9,7 @@ const Index = ({
   airlines,
   duration,
   stop,
+  id,
 }) => {
   return (
     <div className={styles.wrapper}>

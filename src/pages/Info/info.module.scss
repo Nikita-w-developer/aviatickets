@@ -1,0 +1,64 @@
+.heading {
+  font-size: 2rem;
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.ticketWrapper,
+.detailsWrapper,
+.servicesWrapper {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  margin-bottom: 20px;
+}
+
+.subHeading {
+  font-size: 1.5rem;
+  color: #444;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+.detailsList {
+  list-style: none;
+  padding: 0;
+}
+
+.detailItem,
+.segmentItem,
+.serviceItem {
+  margin-bottom: 15px;
+  line-height: 1.5;
+  padding: 10px 0;
+  border-bottom: 1px dashed #ddd;
+}
+
+.detailLabel {
+  font-weight: bold;
+  color: #333;
+}
+
+.detailValue {
+  color: #555;
+  font-style: italic;
+}
+
+.chargeable {
+  color: #d9534f;
+  font-weight: bold;
+}
+
+.itinerary {
+  margin-top: 20px;
+}
+
+.itineraryHeading {
+  font-size: 1.25rem;
+  margin-bottom: 10px;
+  color: #666;
+  font-weight: bold;
+}
