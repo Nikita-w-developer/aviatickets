@@ -9,7 +9,6 @@ import { useGetFlightOffersQuery } from "../../redux/Slices/apiSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { setProps } from "../../redux/Slices/propsSlice";
-import { setValue } from "../../redux/Slices/searchSlice";
 
 const Main = () => {
   const { data, error, isLoading } = useGetFlightOffersQuery({
