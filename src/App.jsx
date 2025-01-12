@@ -9,7 +9,7 @@ const App = () => {
   console.log(props);
   return (
     <Routes>
-      <Route path="/" element={<Main />}></Route>
+      <Route path="*" element={<Main />}></Route>
       <Route path={`/info/${i}`} element={<Info />}></Route>
     </Routes>
   );
