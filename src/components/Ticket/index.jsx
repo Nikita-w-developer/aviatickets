@@ -21,7 +21,7 @@ const Index = ({
           {departure.iataCode} - {arrival.iataCode}
         </p>
         <p>В ПУТИ</p>
-        <p>{stop} ПЕРЕСАДОК</p>
+        <p>{stop === 0 ? "БЕЗ ПЕРЕСАДОК" : `${stop} ПЕРЕСАДКА`}</p>
         <p>
           {departure.at.substring(11, 16)} - {arrival.at.substring(11, 16)}
         </p>

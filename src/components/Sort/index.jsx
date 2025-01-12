@@ -1,11 +1,29 @@
 import React from "react";
 import styles from "./sort.module.scss";
+import { toggleActive } from "../../redux/Slices/sortSlice";
+import { useDispatch } from "react-redux";
 
 const Index = () => {
+  const sortType = ["ДЕШЕВЛЕ", "БЫСТРЕЕ"];
+  const [activeIndex, setActiveIndex] = React.useState(0);
+  const dispatch = useDispatch();
+  const onToggleActive = (index) => {
+    if (activeIndex !== index) {
+      dispatch(toggleActive());
+      setActiveIndex(index);
+    }
+  };
+
   return (
     <div className={styles.wrapper}>
-      <div className={styles.active}>По возрастанию цены</div>
-      <div className={styles.sortBy}>По убыванию цены</div>
+      {sortType.map((el, i) => (
+        <div
+          onClick={() => onToggleActive(i)}
+          className={activeIndex === i ? styles.active : styles.sortBy}
+        >
+          {el}
+        </div>
+      ))}
     </div>
   );
 };
