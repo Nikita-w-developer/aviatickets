@@ -7,7 +7,6 @@ const App = () => {
   const { props } = useSelector((state) => state.propsReducer);
   const i = props?.id;
   console.log(props);
-  console.log(i);
   return (
     <Routes>
       <Route path="/" element={<Main />}></Route>

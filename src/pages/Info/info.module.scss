@@ -62,3 +62,18 @@
   color: #666;
   font-weight: bold;
 }
+.button {
+  display: flex;
+  justify-content: space-around;
+  button {
+    all: unset;
+    display: flex;
+    flex-direction: row;
+    width: auto;
+    height: 30px;
+    padding: 5px 10px;
+    border: 1px solid #0056b3;
+    border-radius: 10px;
+    background-color: #fff;
+  }
+}
