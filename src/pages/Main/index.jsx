@@ -4,7 +4,7 @@ import styles from "./main.module.scss";
 import Filter from "../../components/Filter";
 import Ticket from "../../components/Ticket";
 import Sort from "../../components/Sort";
-
+import Skeleton from "../../components/Skeleton";
 import { useGetFlightOffersQuery } from "../../redux/Slices/apiSlice";
 import { useSelector } from "react-redux";
 
@@ -17,6 +17,18 @@ const Index = () => {
   });
 
   const { coast, speed } = useSelector((state) => state.sortReducer);
+  const { stops } = useSelector((state) => state.filterReducer);
+
+  const filterByStops = (flights) => {
+    return flights.filter((flight) => {
+      const stopCount =
+        flight.itineraries?.[0]?.segments?.[0]?.numberOfStops || 0;
+      if (stops === 0) return stopCount === 0;
+      if (stops === 1) return stopCount === 1;
+      if (stops >= 2) return stopCount > 1;
+      return true;
+    });
+  };
 
   const parseDuration = (duration) => {
     const regex = /PT(?:(\d+)H)?(?:(\d+)M)?/;
@@ -35,16 +47,16 @@ const Index = () => {
       return durationA - durationB;
     });
   };
-  const coastFlights = data?.data ? data?.data : [];
-  console.log(coastFlights);
 
-  const sortedFlights = data?.data
-    ? sortFlightsByDuration(
-        data.data.filter((flight) => flight.itineraries?.[0]?.segments?.[0])
-      )
-    : [];
-  console.log(sortedFlights);
-  console.log(coast);
+  const getFlights = () => {
+    if (!data?.data) return [];
+    let flights = filterByStops(data.data);
+    if (speed) flights = sortFlightsByDuration(flights);
+    return flights;
+  };
+
+  const coastFlights = data?.data ? filterByStops(data.data) : [];
+  const flights = getFlights();
 
   return (
     <div className="container">
@@ -56,7 +68,7 @@ const Index = () => {
         <Filter />
         <div className={styles.ticket_part}>
           <Sort />
-          {isLoading && <p>Loading...</p>}
+          {isLoading && [...new Array(6)].map((_, i) => <Skeleton key={i} />)}
           {error && <p>Error loading data</p>}
           {coast &&
             coastFlights.map((flight) => (
@@ -76,7 +88,7 @@ const Index = () => {
               />
             ))}
           {speed &&
-            sortedFlights.map((flight) => (
+            flights.map((flight) => (
               <Ticket
                 key={flight.id}
                 price={flight.price?.total}
@@ -92,43 +104,6 @@ const Index = () => {
                 }
               />
             ))}
-          {/* {coast &&
-            coastFlights.map((flight) => {
-              <Ticket
-                key={flight.id}
-                price={flight.price?.total}
-                arrival={flight.itineraries?.[0]?.segments?.[0]?.arrival}
-                departure={flight.itineraries?.[0]?.segments?.[0]?.departure}
-                stop={flight.itineraries?.[0]?.segments?.[0]?.numberOfStops}
-                airlines={
-                  flight.itineraries?.[0]?.segments?.[0]?.operating?.carrierCode
-                }
-                duration={flight.itineraries?.[0]?.segments?.[0]?.duration}
-                transfer={
-                  flight.itineraries?.[0]?.segments?.[0]?.stops?.[0]?.iataCode
-                }
-              />;
-            })} */}
-
-          {/* {sortedFlights.length > 0
-            ? sortedFlights.map((flight) => (
-                <Ticket
-                  key={flight.id}
-                  price={flight.price?.total}
-                  arrival={flight.itineraries?.[0]?.segments?.[0]?.arrival}
-                  departure={flight.itineraries?.[0]?.segments?.[0]?.departure}
-                  stop={flight.itineraries?.[0]?.segments?.[0]?.numberOfStops}
-                  airlines={
-                    flight.itineraries?.[0]?.segments?.[0]?.operating
-                      ?.carrierCode
-                  }
-                  duration={flight.itineraries?.[0]?.segments?.[0]?.duration}
-                  transfer={
-                    flight.itineraries?.[0]?.segments?.[0]?.stops?.[0]?.iataCode
-                  }
-                />
-              ))
-            : !isLoading && <p>No flights available</p>} */}
         </div>
       </section>
     </div>
