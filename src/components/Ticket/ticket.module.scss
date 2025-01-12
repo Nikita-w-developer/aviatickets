@@ -11,8 +11,11 @@
 .main {
   display: flex;
   justify-content: space-around;
-  font-size: 26px;
+  font-size: 1.5rem;
   color: #0056b3;
+  @media (max-width: 555px) {
+    font-size: 0.5rem;
+  }
 }
 
 .detail {
@@ -22,5 +25,8 @@
   p {
     text-align: center;
     height: auto;
+    @media (max-width: 555px) {
+      font-size: 0.5rem;
+    }
   }
 }
