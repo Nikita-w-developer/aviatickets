@@ -57,7 +57,9 @@ const Form = ({ onClose }) => {
             </button>
           </div>
         </form>
-        {formSubmitted && <p className={styles.successMessage}>Успешно!</p>}
+        {formSubmitted && (
+          <p className={styles.successMessage}>Успешно забронирован!</p>
+        )}
       </div>
     </div>
   );

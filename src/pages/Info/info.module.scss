@@ -9,6 +9,7 @@
 .ticketWrapper,
 .detailsWrapper,
 .servicesWrapper {
+  margin-top: 1rem;
   background-color: #fff;
   border-radius: 8px;
   padding: 20px;
@@ -70,10 +71,13 @@
     display: flex;
     flex-direction: row;
     width: auto;
-    height: 30px;
+    height: 1.5rem;
     padding: 5px 10px;
     border: 1px solid #0056b3;
     border-radius: 10px;
     background-color: #fff;
+    @media (max-width: 420px) {
+      font-size: 0.7rem;
+    }
   }
 }

@@ -9,6 +9,7 @@ import { useGetFlightOffersQuery } from "../../redux/Slices/apiSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { setProps } from "../../redux/Slices/propsSlice";
+import { setValue } from "../../redux/Slices/searchSlice";
 
 const Main = () => {
   const { data, error, isLoading } = useGetFlightOffersQuery({
@@ -21,6 +22,7 @@ const Main = () => {
   const dispatch = useDispatch();
   const { coast, speed } = useSelector((state) => state.sortReducer);
   const { stops } = useSelector((state) => state.filterReducer);
+  const { value } = useSelector((state) => state.searchReducer);
 
   const filterByStops = (flights) => {
     return flights.filter((flight) => {
@@ -50,15 +52,41 @@ const Main = () => {
       return durationA - durationB;
     });
   };
+  const filterBySearch = (flights) => {
+    if (!value) return flights;
+
+    const searchLower = value.toLowerCase();
+
+    return flights.filter((flight) => {
+      const airline =
+        flight.itineraries?.[0]?.segments?.[0]?.operating?.carrierCode?.toLowerCase() ||
+        "";
+      const departureCity =
+        flight.itineraries?.[0]?.segments?.[0]?.departure?.iataCode?.toLowerCase() ||
+        "";
+      const arrivalCity =
+        flight.itineraries?.[0]?.segments?.[0]?.arrival?.iataCode?.toLowerCase() ||
+        "";
+
+      return (
+        airline.includes(searchLower) ||
+        departureCity.includes(searchLower) ||
+        arrivalCity.includes(searchLower)
+      );
+    });
+  };
 
   const getFlights = () => {
     if (!data?.data) return [];
     let flights = filterByStops(data.data);
     if (speed) flights = sortFlightsByDuration(flights);
-    return flights;
+    return filterBySearch(flights);
   };
 
-  const coastFlights = data?.data ? filterByStops(data.data) : [];
+  const coastFlights = filterBySearch(
+    data?.data ? filterByStops(data.data) : []
+  );
+
   const flights = getFlights();
 
   return (
